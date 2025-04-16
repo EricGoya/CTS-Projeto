@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Status e Controle do Sistema</title>
+    <link rel="stylesheet" href="/style.css">
+    <script>
+        async function enviarComando() {
+            const iluminacao = document.querySelector('input[name="iluminacao"]:checked').value;
+            const arCondicionado = document.querySelector('input[name="ar_condicionado"]:checked').value;
+            
+            const response = await fetch('/control', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ iluminacao: iluminacao, ar_condicionado: arCondicionado })
+            });
+            const result = await response.json();
+            alert("Comando enviado: " + JSON.stringify(result));
+        }
+    </script>
+</head>
+<body>
+    <h1>Status do Sistema</h1>
+    <ul>
+        <li>Iluminação da Sala: {{ status.iluminacao }}</li>
+        <li>Ar Condicionado: {{ status.ar_condicionado }}</li>
+        <li>Temperatura Média: {{ status.temperatura_media }} °C</li>
+    </ul>
+    
+    <h2>Controle Manual</h2>
+    <form onsubmit="event.preventDefault(); enviarComando();">
+        <fieldset>
+            <legend>Iluminação</legend>
+            <input type="radio" id="luzLigado" name="iluminacao" value="ligado">
+            <label for="luzLigado">Ligado</label>
+            <input type="radio" id="luzDesligado" name="iluminacao" value="desligado" checked>
+            <label for="luzDesligado">Desligado</label>
+        </fieldset>
+        <fieldset>
+            <legend>Ar Condicionado</legend>
+            <input type="radio" id="acLigado" name="ar_condicionado" value="ligado">
+            <label for="acLigado">Ligado</label>
+            <input type="radio" id="acDesligado" name="ar_condicionado" value="desligado" checked>
+            <label for="acDesligado">Desligado</label>
+        </fieldset>
+        <button type="submit">Enviar Comando</button>
+    </form>
+    
+    <p>Atualize a página para ver os status atualizados.</p>
+</body>
+</html>
