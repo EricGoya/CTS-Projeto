@@ -1,6 +1,6 @@
 # Sistema Integrado de Iluminação, Climatização e Monitoramento com Comando Manual
 
-Este projeto utiliza o sensor termográfico *AMG8833* com um *ESP32* para monitorar a presença (através de leituras térmicas) e controlar sistemas de iluminação e ar condicionado, de modo automático e manual.  
+Este projeto utiliza o sensor termográfico **AMG8833** com um **ESP32** para monitorar a presença (através de leituras térmicas) e controlar sistemas de iluminação e ar condicionado, de modo automático e manual.  
 Caso a temperatura em algum quadrante (da matriz 8x8) ultrapasse 36°C, os LEDs correspondentes serão acionados automaticamente; da mesma forma, uma temperatura média acima de 33°C aciona o ar condicionado automaticamente.  
 Porém, o sistema também permite que um usuário sobrescreva o comportamento automático via interface web, definindo manualmente os estados dos dispositivos.
 
@@ -17,43 +17,43 @@ Porém, o sistema também permite que um usuário sobrescreva o comportamento au
 
 ## Materiais Necessários
 
-- *ESP32* (qualquer modelo compatível)  
-- *Sensor Termográfico AMG8833 (Grid-EYE)*  
-- *4 LEDs* (para representar cada quadrante – iluminação)  
-- *1 LED adicional* (para simular o ar condicionado)  
-- *5 resistores de 220 Ω*  
-- *Protoboard e fios jumpers*
+- **ESP32** (qualquer modelo compatível)  
+- **Sensor Termográfico AMG8833 (Grid-EYE)**  
+- **4 LEDs** (para representar cada quadrante – iluminação)  
+- **1 LED adicional** (para simular o ar condicionado)  
+- **5 resistores de 220 Ω**  
+- **Protoboard e fios jumpers**
 
 ## Esquemático e Conexões
 
 ### Conexão do Sensor AMG8833 (I²C)
-- *VCC* do AMG8833 → *3.3V* do ESP32  
-- *GND* do AMG8833 → *GND* do ESP32  
-- *SDA* do AMG8833 → *GPIO21*  
-- *SCL* do AMG8833 → *GPIO22*  
+- **VCC** do AMG8833 → **3.3V** do ESP32  
+- **GND** do AMG8833 → **GND** do ESP32  
+- **SDA** do AMG8833 → **GPIO21**  
+- **SCL** do AMG8833 → **GPIO22**  
 
-> *Observação:* Se o módulo não possuir resistores pull-up, conecte resistores de 4.7 kΩ entre SDA/SCL e 3.3V.
+> **Observação:** Se o módulo não possuir resistores pull-up, conecte resistores de 4.7 kΩ entre SDA/SCL e 3.3V.
 
 ### Conexões dos LEDs
 
-- *LEDs dos Quadrantes (Iluminação):*  
-  - *Q1 (Superior Esquerdo):*  
-    - Ânodo (via resistor 220 Ω) → *GPIO25*  
-    - Cátodo → *GND*
-  - *Q2 (Superior Direito):*  
-    - Ânodo (via resistor 220 Ω) → *GPIO26*  
-    - Cátodo → *GND*
-  - *Q3 (Inferior Esquerdo):*  
-    - Ânodo (via resistor 220 Ω) → *GPIO27*  
-    - Cátodo → *GND*
-  - *Q4 (Inferior Direito):*  
-    - Ânodo (via resistor 220 Ω) → *GPIO14*  
-    - Cátodo → *GND*
+- **LEDs dos Quadrantes (Iluminação):**  
+  - **Q1 (Superior Esquerdo):**  
+    - Ânodo (via resistor 220 Ω) → **GPIO25**  
+    - Cátodo → **GND**
+  - **Q2 (Superior Direito):**  
+    - Ânodo (via resistor 220 Ω) → **GPIO26**  
+    - Cátodo → **GND**
+  - **Q3 (Inferior Esquerdo):**  
+    - Ânodo (via resistor 220 Ω) → **GPIO27**  
+    - Cátodo → **GND**
+  - **Q4 (Inferior Direito):**  
+    - Ânodo (via resistor 220 Ω) → **GPIO14**  
+    - Cátodo → **GND**
 
-- *Simulação do Ar Condicionado:*  
+- **Simulação do Ar Condicionado:**  
   - Utilize um LED (ou relé) para representar seu status.  
-  - Conecte o ânodo (via resistor 220 Ω) → *GPIO32*  
-  - Conecte o cátodo → *GND*
+  - Conecte o ânodo (via resistor 220 Ω) → **GPIO32**  
+  - Conecte o cátodo → **GND**
 
 ## Configuração do Ambiente e Servidor Local
 
@@ -61,19 +61,19 @@ Porém, o sistema também permite que um usuário sobrescreva o comportamento au
 
 1. Instale a [IDE do Arduino](https://www.arduino.cc/en/software).  
 2. Instale as bibliotecas necessárias:
-   - *Adafruit AMG88xx* (via Sketch > Incluir Biblioteca > Gerenciar Bibliotecas...)
-   - *ArduinoJson* (utilizada para fazer parse dos JSONs)
+   - **Adafruit AMG88xx** (via Sketch > Incluir Biblioteca > Gerenciar Bibliotecas...)
+   - **ArduinoJson** (utilizada para fazer parse dos JSONs)
 
 ### Configuração do Servidor Local
 
-Utilizaremos *Flask* para criar um servidor web simples que:
-- Recebe os status do ESP32 pelo endpoint /update.
-- Permite que o usuário envie comandos manuais via o endpoint /control.
+Utilizaremos **Flask** para criar um servidor web simples que:
+- Recebe os status do ESP32 pelo endpoint `/update`.
+- Permite que o usuário envie comandos manuais via o endpoint `/control`.
 
 #### Arquivos do Servidor
 
-1. *app.py*
-   python
+1. **app.py**
+   ```python
    from flask import Flask, request, jsonify, render_template
    app = Flask(__name__)
 
@@ -120,9 +120,9 @@ Utilizaremos *Flask* para criar um servidor web simples que:
 
    if __name__ == '__main__':
        app.run(host='0.0.0.0', port=5000)
-
-1. *templates/index.html*
-html
+```
+1. **templates/index.html**
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -174,10 +174,10 @@ html
     <p>Atualize a página para ver os status atualizados.</p>
 </body>
 </html>
+```
 
-
-3.*style.css*
-css
+3.**style.css**
+```css
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
@@ -213,10 +213,10 @@ button:hover {
     background: #0056b3;
 }
 
+```
 
-
-4.*Dockerfile para empacotar a aplicação Flask*
-dockerfile
+4.**Dockerfile para empacotar a aplicação Flask**
+```dockerfile
 FROM python:3.9-slim
 
 WORKDIR /app
@@ -230,14 +230,14 @@ EXPOSE 5000
 
 CMD ["python", "app.py"]
 
+```
 
-
-5.*Intruções para executar dentro do terminal do Docker*
- bash
+5.**Intruções para executar dentro do terminal do Docker**
+``` bash
 docker build -t flask-control .
 docker run -d -p 5000:5000 flask-control
 
-
+```
 A aplicação ficará disponível em http://localhost:5000.
 
 ##Código do projeto
@@ -250,7 +250,7 @@ A aplicação ficará disponível em http://localhost:5000.
 
 - O frontend exibe o status atual dos dispositivos e disponibiliza botões (através de formulários) para que o usuário possa enviar comandos manuais.
 
-- Ao submeter o formulário, um script JavaScript envia os comandos via POST para o endpoint /control.
+- Ao submeter o formulário, um script JavaScript envia os comandos via POST para o endpoint `/control`.
 
 - O ESP32 utiliza estes comandos (caso não sejam "null") para controlar os LEDs e simular o ar condicionado.
 
@@ -270,28 +270,28 @@ A aplicação ficará disponível em http://localhost:5000.
 
 ## Testes e Depuração
 
-1. *Hardware:*  
+1. **Hardware:**  
    Verifique todas as conexões dos sensores e LEDs.
 
-2. *Rede:*  
+2. **Rede:**  
 esteja conectado ao Wi-Fi e que os endereços dos endpoints estejam corretos.
 
-3. *Monitor Serial:*  
+3. **Monitor Serial:**  
    Utilize o Serial Monitor para visualizar os valores de temperatura e confirmar o acionamento dos LEDs conforme os quadrantes.
 
-4. *Ajuste de Parâmetros:*  
+4. **Ajuste de Parâmetros:**  
    Se necessário, ajuste o limite de temperatura (atualmente definido como 36°C) ou refine a lógica de detecção no código.
 
-5. *Servidor e Frontend*
+5. **Servidor e Frontend**
    Inicie o contêiner Docker e acesse http://localhost:5000 para testar a interface e enviar comandos manuais.
 
 ## Considerações Finais
 
-- *Escalabilidade:*  
+- **Escalabilidade:**  
   O sistema integrado pode ser ampliado para controlar dispositivos reais (através de relés, por exemplo) e integrado com plataformas IoT mais robustas.
 
-- *Calibração:*  
+- **Calibração:**  
   Realize testes em ambiente real e ajuste os thresholds de temperatura conforme necessário..
 
-- *Integração Iot:*  
+- **Integração Iot:**  
   A utilização de endpoints HTTP possibilita a comunicação bidirecional, permitindo futuras integrações com outras plataformas.
