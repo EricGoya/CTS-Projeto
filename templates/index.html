@@ -1,51 +1,430 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
-    <title>Status e Controle do Sistema</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Control Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../static/style.css">
-    <script>
-        async function enviarComando() {
-            const iluminacao = document.querySelector('input[name="iluminacao"]:checked').value;
-            const arCondicionado = document.querySelector('input[name="ar_condicionado"]:checked').value;
-            
-            const response = await fetch('/control', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ iluminacao: iluminacao, ar_condicionado: arCondicionado })
-            });
-            const result = await response.json();
-            alert("Comando enviado: " + JSON.stringify(result));
-        }
-    </script>
+
 </head>
-<body>
-    <h1>Status do Sistema</h1>
-    <ul>
-        <li>Iluminação da Sala: {{ status.iluminacao }}</li>
-        <li>Ar Condicionado: {{ status.ar_condicionado }}</li>
-        <li>Temperatura Média: {{ status.temperatura_media }} °C</li>
-    </ul>
-    
-    <h2>Controle Manual</h2>
-    <form onsubmit="event.preventDefault(); enviarComando();">
-        <fieldset>
-            <legend>Iluminação</legend>
-            <input type="radio" id="luzLigado" name="iluminacao" value="ligado">
-            <label for="luzLigado">Ligado</label>
-            <input type="radio" id="luzDesligado" name="iluminacao" value="desligado" checked>
-            <label for="luzDesligado">Desligado</label>
-        </fieldset>
-        <fieldset>
-            <legend>Ar Condicionado</legend>
-            <input type="radio" id="acLigado" name="ar_condicionado" value="ligado">
-            <label for="acLigado">Ligado</label>
-            <input type="radio" id="acDesligado" name="ar_condicionado" value="desligado" checked>
-            <label for="acDesligado">Desligado</label>
-        </fieldset>
-        <button type="submit">Enviar Comando</button>
-    </form>
-    
-    <p>Atualize a página para ver os status atualizados.</p>
+
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800">Smart Control Dashboard</h1>
+                <p class="text-gray-600">Monitor and control your smart environment</p>
+            </div>
+            <div class="flex items-center">
+                <span class="mr-2 text-gray-600">Live</span>
+                <div class="w-3 h-3 rounded-full bg-green-500 pulse"></div>
+            </div>
+        </header>
+
+        <!-- Status Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Lighting Card -->
+            <div class="status-card bg-white rounded-xl p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center">
+                        <div class="p-3 rounded-full bg-blue-100 mr-4">
+                            <i class="fas fa-lightbulb text-blue-500 text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800">Iluminação</h3>
+                    </div>
+                    <span id="lighting-status"
+                        class="px-3 py-1 rounded-full text-sm font-medium 
+                        {{ status.iluminacao == 'ligado' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
+                        {{ status.iluminacao == 'ligado' ? 'Ligado' : 'Desligado' }}
+                    </span>
+                </div>
+                <p class="text-gray-600 mb-4">Controle a iluminação da sala principal</p>
+                <div class="flex justify-between items-center">
+                    <div class="switch">
+                        <input type="checkbox" id="lighting-toggle" name="iluminacao"
+                            {{ status.iluminacao == 'ligado' ? 'checked' : '' }}>
+                        <label class="slider" for="lighting-toggle"></label>
+                    </div>
+                    <span class="text-sm text-gray-500">Última atualização: agora</span>
+                </div>
+            </div>
+
+            <!-- AC Card -->
+            <div class="status-card bg-white rounded-xl p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center">
+                        <div class="p-3 rounded-full bg-red-100 mr-4">
+                            <i class="fas fa-snowflake text-red-500 text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800">Ar Condicionado</h3>
+                    </div>
+                    <span id="ac-status"
+                        class="px-3 py-1 rounded-full text-sm font-medium 
+                        {{ status.ar_condicionado == 'ligado' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
+                        {{ status.ar_condicionado == 'ligado' ? 'Ligado' : 'Desligado' }}
+                    </span>
+                </div>
+                <p class="text-gray-600 mb-4">Controle o sistema de ar condicionado</p>
+                <div class="flex justify-between items-center">
+                    <div class="switch">
+                        <input type="checkbox" id="ac-toggle" name="ar_condicionado"
+                            {{ status.ar_condicionado == 'ligado' ? 'checked' : '' }}>
+                        <label class="slider" for="ac-toggle"></label>
+                    </div>
+                    <span class="text-sm text-gray-500">Última atualização: agora</span>
+                </div>
+            </div>
+
+            <!-- Temperature Card -->
+            <div class="status-card bg-white rounded-xl p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center">
+                        <div class="p-3 rounded-full bg-yellow-100 mr-4">
+                            <i class="fas fa-thermometer-half text-yellow-500 text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800">Temperatura</h3>
+                    </div>
+                    <span id="temp-status" class="px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
+                        {{ status.temperatura_media }} °C
+                    </span>
+                </div>
+                <p class="text-gray-600 mb-4">Temperatura média do ambiente</p>
+                <div class="temperature-gauge mb-2">
+                    <div class="temperature-fill" style="width: {{ (status.temperatura_media / 40) * 100 }}%"></div>
+                </div>
+                <div class="flex justify-between text-xs text-gray-500">
+                    <span>0°C</span>
+                    <span>20°C</span>
+                    <span>40°C</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="bg-white rounded-xl p-6 shadow mb-8">
+            <h2 class="text-xl font-semibold text-gray-800 mb-6">Painel de Controle</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Lighting Control -->
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h3 class="font-medium text-gray-700 mb-3 flex items-center">
+                        <i class="fas fa-lightbulb text-blue-500 mr-2"></i> Controle de Iluminação
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center">
+                            <input type="radio" id="luzLigado" name="iluminacao" value="ligado"
+                                class="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                                {{ status.iluminacao == 'ligado' ? 'checked' : '' }}>
+                            <label for="luzLigado" class="ml-2 block text-sm font-medium text-gray-700">
+                                Ligado
+                            </label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" id="luzDesligado" name="iluminacao" value="desligado"
+                                class="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                                {{ status.iluminacao == 'desligado' ? 'checked' : '' }}>
+                            <label for="luzDesligado" class="ml-2 block text-sm font-medium text-gray-700">
+                                Desligado
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AC Control -->
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h3 class="font-medium text-gray-700 mb-3 flex items-center">
+                        <i class="fas fa-snowflake text-red-500 mr-2"></i> Controle de Ar Condicionado
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center">
+                            <input type="radio" id="acLigado" name="ar_condicionado" value="ligado"
+                                class="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                                {{ status.ar_condicionado == 'ligado' ? 'checked' : '' }}>
+                            <label for="acLigado" class="ml-2 block text-sm font-medium text-gray-700">
+                                Ligado
+                            </label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" id="acDesligado" name="ar_condicionado" value="desligado"
+                                class="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                                {{ status.ar_condicionado == 'desligado' ? 'checked' : '' }}>
+                            <label for="acDesligado" class="ml-2 block text-sm font-medium text-gray-700">
+                                Desligado
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 flex justify-end">
+                <button id="submit-btn" type="button"
+                    class="btn-submit text-white px-6 py-3 rounded-lg font-medium shadow-md">
+                    <i class="fas fa-paper-plane mr-2"></i> Enviar Comandos
+                </button>
+            </div>
+        </div>
+
+        <!-- System Status -->
+        <div class="bg-white rounded-xl p-6 shadow">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Status do Sistema</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Componente
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Status
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Última Atualização
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div
+                                        class="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-blue-100 rounded-full">
+                                        <i class="fas fa-lightbulb text-blue-500"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">Iluminação</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                    {{ status.iluminacao == 'ligado' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
+                                    {{ status.iluminacao == 'ligado' ? 'Ligado' : 'Desligado' }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                Agora
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div
+                                        class="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-red-100 rounded-full">
+                                        <i class="fas fa-snowflake text-red-500"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">Ar Condicionado</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                    {{ status.ar_condicionado == 'ligado' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
+                                    {{ status.ar_condicionado == 'ligado' ? 'Ligado' : 'Desligado' }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                Agora
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div
+                                        class="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-yellow-100 rounded-full">
+                                        <i class="fas fa-thermometer-half text-yellow-500"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">Temperatura</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ status.temperatura_media }} °C
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                Agora
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-8 text-center text-gray-500 text-sm">
+            <p>Sistema atualizado automaticamente a cada 10 segundos</p>
+            <p class="mt-1">© 2023 Smart Control Dashboard. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Seleciona os elementos
+            const lightingToggle = document.getElementById('lighting-toggle');
+            const acToggle = document.getElementById('ac-toggle');
+            const submitBtn = document.getElementById('submit-btn');
+
+            // Atualiza os radios quando o slider é alterado
+            lightingToggle.addEventListener('change', function () {
+                document.querySelector(
+                    `input[type="radio"][name="iluminacao"][value="${this.checked ? 'ligado' : 'desligado'}"]`
+                    ).checked = true;
+            });
+
+            acToggle.addEventListener('change', function () {
+                document.querySelector(
+                    `input[type="radio"][name="ar_condicionado"][value="${this.checked ? 'ligado' : 'desligado'}"]`
+                    ).checked = true;
+            });
+
+            // Atualiza o slider quando os radios são alterados (seleciona somente inputs radio)
+            document.querySelectorAll('input[type="radio"][name="iluminacao"]').forEach(radio => {
+                radio.addEventListener('change', function () {
+                    lightingToggle.checked = this.value === 'ligado';
+                });
+            });
+
+            document.querySelectorAll('input[type="radio"][name="ar_condicionado"]').forEach(radio => {
+                radio.addEventListener('change', function () {
+                    acToggle.checked = this.value === 'ligado';
+                });
+            });
+
+            // Resto do código (submit e notificações) permanece inalterado...
+            submitBtn.addEventListener('click', async function () {
+                const iluminacao = document.querySelector(
+                    'input[type="radio"][name="iluminacao"]:checked').value;
+                const arCondicionado = document.querySelector(
+                    'input[type="radio"][name="ar_condicionado"]:checked').value;
+
+                // Mostra estado de carregamento
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Enviando...';
+                submitBtn.disabled = true;
+
+                try {
+                    const response = await fetch('/control', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            iluminacao: iluminacao,
+                            ar_condicionado: arCondicionado
+                        })
+                    });
+
+                    const result = await response.json();
+
+                    // Notificação de sucesso
+                    showNotification('Comandos enviados com sucesso!', 'success');
+
+                    // Atualiza os indicadores de status
+                    updateStatusIndicators(result);
+
+                } catch (error) {
+                    // Notificação de erro
+                    showNotification('Erro ao enviar comandos. Tente novamente.', 'error');
+                    console.error('Error:', error);
+                } finally {
+                    // Reseta o estado do botão
+                    submitBtn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i> Enviar Comandos';
+                    submitBtn.disabled = false;
+                }
+            });
+
+            function updateStatusIndicators(data) {
+                // Atualiza o status da iluminação
+                const lightingStatus = document.getElementById('lighting-status');
+                if (data.iluminacao === 'ligado') {
+                    lightingStatus.textContent = 'Ligado';
+                    lightingStatus.className =
+                        'px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800';
+                } else {
+                    lightingStatus.textContent = 'Desligado';
+                    lightingStatus.className =
+                        'px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800';
+                }
+
+                // Atualiza o status do ar condicionado
+                const acStatus = document.getElementById('ac-status');
+                if (data.ar_condicionado === 'ligado') {
+                    acStatus.textContent = 'Ligado';
+                    acStatus.className =
+                        'px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800';
+                } else {
+                    acStatus.textContent = 'Desligado';
+                    acStatus.className = 'px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800';
+                }
+            }
+
+            function showNotification(message, type) {
+                const notification = document.createElement('div');
+                notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg text-white font-medium ${
+                    type === 'success' ? 'bg-green-500' : 'bg-red-500'
+                }`;
+                notification.textContent = message;
+                document.body.appendChild(notification);
+
+                // Remove a notificação após 3 segundos
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    notification.style.transition = 'opacity 0.5s ease';
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 500);
+                }, 3000);
+            }
+
+            // Simulação de atualização automática (poderia ser substituída por WebSockets numa aplicação real)
+            setInterval(() => {
+                console.log('Simulando atualização de dados...');
+            }, 10000);
+
+            // Animacao Loading
+            const statusSpanLight = document.getElementById('lighting-status');
+
+            if (!status || status.iluminacao === undefined) {
+                statusSpanLight.textContent = 'Status: Carregando...';
+                statusSpanLight.className = 'text-gray-400 italic';
+            } else {
+                statusSpanLight.textContent = status.iluminacao === 'ligado' ? 'Ligado' : 'Desligado';
+                statusSpanLight.className = 'font-medium'; // sua classe normal
+            }
+
+            const statusSpanAC = document.getElementById('ac-status');
+
+            if (!status || status.ar_condicionado === undefined) {
+                statusSpanAC.textContent = 'Status: Carregando...';
+                statusSpanAC.className = 'text-gray-400 italic';
+            } else {
+                statusSpanAC.textContent = status.ar_condicionado=== 'ligado' ? 'Ligado' : 'Desligado';
+                statusSpanAC.className = 'font-medium'; // sua classe normal
+            }
+
+            const statusSpanTemp = document.getElementById('temp-status');
+
+            if (!status || status.temperatura_media === undefined) {
+                statusSpanTemp.textContent = 'Status: Carregando...';
+                statusSpanTemp.className = 'text-gray-400 italic';
+            } else {
+                statusSpanTemp.textContent = status.temperatura_media=== 'ligado' ? 'Ligado' : 'Desligado';
+                statusSpanTemp.className = 'font-medium'; // sua classe normal
+            }
+
+
+        });
+    </script>
+
 </body>
+
 </html>
