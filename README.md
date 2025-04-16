@@ -73,6 +73,7 @@ Utilizaremos **Flask** para criar um servidor web simples que:
 #### Arquivos do Servidor
 
 1. **app.py**
+
    ```python
    from flask import Flask, request, jsonify, render_template
    app = Flask(__name__)
