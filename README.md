@@ -123,7 +123,7 @@ Utilizaremos **Flask** para criar um servidor web simples que:
        app.run(host='0.0.0.0', port=5000)```
 
 
-2.**templates/index.html**
+2. **templates/index.html**
 
 ```html
 <!DOCTYPE html>
@@ -179,7 +179,7 @@ Utilizaremos **Flask** para criar um servidor web simples que:
 </html>
 ```
 
-3.**style.css**
+3. **static/style.css**
 ```css
 body {
     font-family: Arial, sans-serif;
@@ -218,7 +218,7 @@ button:hover {
 
 ```
 
-4.**Dockerfile para empacotar a aplicação Flask**
+4. **Dockerfile para empacotar a aplicação Flask**
 ```dockerfile
 FROM python:3.9-slim
 
@@ -235,7 +235,7 @@ CMD ["python", "app.py"]
 
 ```
 
-5.**Intruções para executar dentro do terminal do Docker**
+5. **Intruções para executar dentro do terminal do Docker**
 ``` bash
 docker build -t flask-control .
 docker run -d -p 5000:5000 flask-control
