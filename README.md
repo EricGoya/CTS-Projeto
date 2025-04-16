@@ -298,3 +298,12 @@ esteja conectado ao Wi-Fi e que os endereços dos endpoints estejam corretos.
 
 - **Integração Iot:**  
   A utilização de endpoints HTTP possibilita a comunicação bidirecional, permitindo futuras integrações com outras plataformas.
+
+## Custos Estimados
+
+| Despesa                        | Faixa de valor (R$)     |
+|--------------------------------|-------------------------|
+| Componentes físicos do projeto | R$ 210 – R$ 365         |
+| Energia com PC ligado (100 W)  | ~R$ 50/mês              |
+| Raspberry Pi (5 W) – energia   | ~R$ 2/mês (após compra) |
+| Hospedagem Flask na nuvem      | Gratuito (planos free)  |
