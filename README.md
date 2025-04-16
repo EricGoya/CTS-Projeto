@@ -119,9 +119,8 @@ Utilizaremos **Flask** para criar um servidor web simples que:
        return render_template('index.html', status=status_data, control=control_data)
 
    if __name__ == '__main__':
-       app.run(host='0.0.0.0', port=5000)
+       app.run(host='0.0.0.0', port=5000)```
 
-```
 
 2.**templates/index.html**
 
