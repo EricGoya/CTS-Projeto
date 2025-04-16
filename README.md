@@ -299,9 +299,28 @@ esteja conectado ao Wi-Fi e que os endereços dos endpoints estejam corretos.
 - **Integração Iot:**  
   A utilização de endpoints HTTP possibilita a comunicação bidirecional, permitindo futuras integrações com outras plataformas.
 
-## Custos Estimados
+## Estimativa de Custos dos Itens de Hardware
 
-| Despesa                        | Faixa de valor (R$)     |
-|--------------------------------|-------------------------|
-| Componentes físicos do projeto | R$ 210 – R$ 365         |
-| Energia com PC ligado (100 W)  | ~R$ 50/mês              |
+| Item                                | Quantidade | Faixa de Preço Unitário (USD) | Custo Aproximado (USD) |
+|-------------------------------------|------------|-------------------------------|------------------------|
+| ESP32 (placa de desenvolvimento)    | 1          | US$ 10,00 – US$ 15,00          | ~US$ 12,00             |
+| Sensor Termográfico AMG8833         | 1          | US$ 15,00 – US$ 25,00          | ~US$ 20,00             |
+| LEDs (para 4 quadrantes + 1 para AC)| 5          | US$ 0,10 – US$ 0,50            | ~US$ 2,50              |
+| Resistores 220 Ω                    | 5          | US$ 0,02 – US$ 0,10            | ~US$ 0,25              |
+| Protoboard                          | 1          | US$ 4,00 – US$ 8,00            | ~US$ 5,00              |
+| Fios Jumpers                        | 1 conjunto | US$ 3,00 – US$ 5,00            | ~US$ 4,00              |
+| **Total Aproximado**                |            |                               | **~US$ 43,75**         |
+
+## Estimativa de Custo com Energia
+
+Supondo que um PC médio seja utilizado para hospedar o servidor, considere as seguintes estimativas:
+
+- **PC de 100W:** Aproximadamente 2,4 kWh/dia (72 kWh/mês)  
+  → Custo mensal ~US$ 8,64 (a US$ 0,12/kWh).
+
+- **Variação:** Dependendo do equipamento (um desktop mais potente ou um laptop), o custo mensal pode variar de **US$ 4 a US$ 13**.
+
+---
+
+> **Observação:** Esses valores são estimativas aproximadas e podem variar conforme o fornecedor, região e condições específicas do equipamento utilizado.
+
