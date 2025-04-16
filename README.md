@@ -302,14 +302,14 @@ esteja conectado ao Wi-Fi e que os endereços dos endpoints estejam corretos.
 ## Estimativa de Custos dos Itens de Hardware
 
 | Item                                | Quantidade | Faixa de Preço Unitário (USD) | Custo Aproximado (USD) |
-|-------------------------------------|------------|-------------------------------|------------------------|
-| ESP32 (placa de desenvolvimento)    | 1          | US$ 10,00 – US$ 15,00          | ~US$ 12,00             |
-| Sensor Termográfico AMG8833         | 1          | US$ 15,00 – US$ 25,00          | ~US$ 20,00             |
-| LEDs (para 4 quadrantes + 1 para AC)| 5          | US$ 0,10 – US$ 0,50            | ~US$ 2,50              |
-| Resistores 220 Ω                    | 5          | US$ 0,02 – US$ 0,10            | ~US$ 0,25              |
-| Protoboard                          | 1          | US$ 4,00 – US$ 8,00            | ~US$ 5,00              |
-| Fios Jumpers                        | 1 conjunto | US$ 3,00 – US$ 5,00            | ~US$ 4,00              |
-| **Total Aproximado**                |            |                               | **~US$ 43,75**         |
+|-------------------------------------|----|-------------------------------|------------------------|
+| ESP32 (placa de desenvolvimento)    | 1  | US$ 10,00 – US$ 15,00         | ~US$ 12,00             |
+| Sensor Termográfico AMG8833         | 1  | US$ 15,00 – US$ 25,00         | ~US$ 20,00             |
+| LEDs (para 4 quadrantes + 1 para AC)| 5  | US$ 0,10 – US$ 0,50           | ~US$ 2,50              |
+| Resistores 220 Ω                    | 5  | US$ 0,02 – US$ 0,10           | ~US$ 0,25              |
+| Protoboard                          | 1  | US$ 4,00 – US$ 8,00           | ~US$ 5,00              |
+| Fios Jumpers (conjunto)             | 1  | US$ 3,00 – US$ 5,00           | ~US$ 4,00              |
+| **Total Aproximado**                | -- |  --------------------------   | **~US$ 43,75**         |
 
 ## Estimativa de Custo com Energia
 
