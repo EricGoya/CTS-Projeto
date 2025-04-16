@@ -305,5 +305,3 @@ esteja conectado ao Wi-Fi e que os endereços dos endpoints estejam corretos.
 |--------------------------------|-------------------------|
 | Componentes físicos do projeto | R$ 210 – R$ 365         |
 | Energia com PC ligado (100 W)  | ~R$ 50/mês              |
-| Raspberry Pi (5 W) – energia   | ~R$ 2/mês (após compra) |
-| Hospedagem Flask na nuvem      | Gratuito (planos free)  |
