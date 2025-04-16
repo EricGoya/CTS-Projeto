@@ -243,13 +243,13 @@ docker run -d -p 5000:5000 flask-control
 ```
 A aplicação ficará disponível em http://localhost:5000.
 
-##Código do projeto
+## Código do projeto
 
  - O arquivo main.ino integra a lógica de leitura do sensor, controle automático, verificação de comandos manuais e comunicação com o servidor.
 
  - A cada iteração, o ESP32 realiza um GET no endpoint /control para verificar se há comandos manuais. Se houver, esses comandos sobrescrevem a lógica automática.
 
-##FrontEnd e Controle Manual
+## FrontEnd e Controle Manual
 
 - O frontend exibe o status atual dos dispositivos e disponibiliza botões (através de formulários) para que o usuário possa enviar comandos manuais.
 
